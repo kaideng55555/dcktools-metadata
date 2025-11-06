@@ -31,6 +31,18 @@ jobs:
         python-version: '3.x'
         # Cache pip dependencies for faster builds
         cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        if [ -f requirements.txt ]; then
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        elif [ -f pyproject.toml ]; then
+          python -m pip install --upgrade pip
+          pip install .
+        else
+          echo "No requirements.txt or pyproject.toml found in repo root"
+        fi
       
     - name: Validate meta.json
       run: python3 validate.py
