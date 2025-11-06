@@ -1,0 +1,49 @@
+name: Validate Metadata
+
+# Optimized CI workflow - runs only when necessary
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'meta.json'
+      - 'meta.schema.json'
+      - 'validate.py'
+      - '.github/workflows/validate.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'meta.json'
+      - 'meta.schema.json'
+      - 'validate.py'
+      - '.github/workflows/validate.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+        # Cache pip dependencies for faster builds
+        cache: 'pip'
+      
+    - name: Validate meta.json
+      run: python3 validate.py
+      
+    - name: Check file size
+      run: |
+        SIZE=$(stat -f%z meta.json 2>/dev/null || stat -c%s meta.json)
+        echo "meta.json size: $SIZE bytes"
+        if [ $SIZE -gt 1024 ]; then
+          echo "⚠️ Warning: meta.json is larger than 1KB"
+        fi
+        
+    - name: Validate JSON syntax
+      run: |
+        python3 -m json.tool meta.json > /dev/null
+        echo "✅ JSON syntax is valid"

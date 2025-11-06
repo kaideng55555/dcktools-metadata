@@ -1,0 +1,18 @@
+# Auto detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# JSON files - use LF line endings and enable diff
+*.json text eol=lf diff=json
+
+# Markdown files
+*.md text eol=lf
+
+# Images - treat as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+
+# JSON merge strategy - use union for non-conflicting changes
+meta.json merge=union
