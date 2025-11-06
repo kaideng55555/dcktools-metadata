@@ -1,4 +1,8 @@
 {
-  "name": "dcktools-metadata",
-  "updated": "2025-11-06T05:30:22Z"
+  "name": "DCK$ Tools",
+  "symbol": "DCK$",
+  "description": "Official DCK$ Tools token.",
+  "image": "https://kaideng5.github.io/dcktools-metadata/logo.png",
+  "attributes": [],
+  "updated": "2025-11-06T07:07:03Z"
 }
