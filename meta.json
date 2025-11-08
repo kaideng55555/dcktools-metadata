@@ -1,8 +1,9 @@
 {
   "name": "DCK$ Tools",
   "symbol": "DCK$",
-  "description": "Official DCK$ Tools token.",
-  "image": "https://kaideng5.github.io/dcktools-metadata/logo.png",
+  "description": "Official DCK$ Tools utility token for Solana ecosystem integration.",
+  "seller_fee_basis_points": 0,
+  "image": "https://dcktoolscop.vercel.app/logo.png",
   "attributes": [],
-  "updated": "2025-11-06T07:07:03Z"
+  "updated": "2025-11-07T17:40:00Z"
 }
