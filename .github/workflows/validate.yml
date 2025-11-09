@@ -1,9 +1,26 @@
 name: Validate Metadata
-on: [push, pull_request]
+
+# Optimized CI workflow - runs only when necessary
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'meta.json'
+      - 'meta.schema.json'
+      - 'validate.py'
+      - '.github/workflows/validate.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'meta.json'
+      - 'meta.schema.json'
+      - 'validate.py'
+      - '.github/workflows/validate.yml'
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -12,20 +29,7 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.x'
-        # Cache pip dependencies for faster builds
-        cache: 'pip'
-
-    - name: Install dependencies
-      run: |
-        if [ -f requirements.txt ]; then
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-        elif [ -f pyproject.toml ]; then
-          python -m pip install --upgrade pip
-          pip install .
-        else
-          echo "No requirements.txt or pyproject.toml found in repo root"
-        fi
+        # No cache needed - validate.py uses only built-in modules
       
     - name: Validate meta.json
       run: python3 validate.py
@@ -42,30 +46,3 @@ jobs:
       run: |
         python3 -m json.tool meta.json > /dev/null
         echo "✅ JSON syntax is valid"
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.14
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.14'
-
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install dependencies if present
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f "./requirements.txt" ]; then
-            pip install -r requirements.txt
-          elif [ -f "./pyproject.toml" ]; then
-            # For pyproject-based projects this does a basic install; adjust if you use Poetry/Flit
-            pip install .
-          else
-            echo "No requirements.txt or pyproject.toml found — skipping dependency install"
-          fi
