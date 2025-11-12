@@ -3,5 +3,7 @@
   "symbol": "DCK$",
   "description": "Official DCK$ Tools utility token for Solana ecosystem integration.",
   "seller_fee_basis_points": 0,
-  "image": "https://dcktoolscop.vercel.app/logo.png"
+  "image": "https://dcktoolscop.vercel.app/logo.png",
+  "attributes": [],
+  "updated": "2025-11-07T17:40:00Z"
 }
